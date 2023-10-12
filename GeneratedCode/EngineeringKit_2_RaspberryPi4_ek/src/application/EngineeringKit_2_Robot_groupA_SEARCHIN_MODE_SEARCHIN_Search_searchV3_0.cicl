@@ -1,0 +1,67 @@
+typedef struct _searchedColor {
+    VARIABLE_TYPE_searchedColor buffer[2];
+    semo_int32 size;
+} SHARED_VARIABLE_searchedColor;
+
+static SHARED_VARIABLE_searchedColor listen_searchedColor;
+static semo_int8 listen_searchedColor_updated;
+static HThreadMutex listen_searchedColor_mutex;
+
+static SHARED_VARIABLE_searchedColor action_searchedColor;
+static semo_int8 action_searchedColor_updated;
+static HThreadMutex action_searchedColor_mutex;
+
+
+LIBFUNC(void, init, void) {
+    listen_searchedColor_updated = FALSE;
+    action_searchedColor_updated = FALSE;
+    listen_searchedColor.size = 8;
+    action_searchedColor.size = 8;
+    UCThreadMutex_Create(&listen_searchedColor_mutex);
+    UCThreadMutex_Create(&action_searchedColor_mutex);
+}
+
+LIBFUNC(void, wrapup, void) {
+    UCThreadMutex_Destroy(&listen_searchedColor_mutex);
+    UCThreadMutex_Destroy(&action_searchedColor_mutex);
+}
+
+LIBFUNC(void, set_searchedColor_listen, void *buffer) {
+    UCThreadMutex_Lock(listen_searchedColor_mutex);
+    listen_searchedColor_updated = TRUE;
+    memcpy(listen_searchedColor.buffer, buffer, listen_searchedColor.size);
+    UCThreadMutex_Unlock(listen_searchedColor_mutex);
+    SEMO_LOG_DEBUG("Multicast from others");
+}
+
+LIBFUNC(void, get_searchedColor_action, void *buffer) {
+    UCThreadMutex_Lock(listen_searchedColor_mutex);
+    listen_searchedColor_updated = FALSE;
+    memcpy(buffer, listen_searchedColor.buffer, listen_searchedColor.size);
+    UCThreadMutex_Unlock(listen_searchedColor_mutex);
+    SEMO_LOG_DEBUG("Get from action");
+}
+
+LIBFUNC(semo_int8, avail_searchedColor_action) {
+    return listen_searchedColor_updated;
+}
+
+LIBFUNC(void, set_searchedColor_action, void *buffer) {
+    UCThreadMutex_Lock(action_searchedColor_mutex);
+    action_searchedColor_updated = TRUE;
+    memcpy(action_searchedColor.buffer, buffer, action_searchedColor.size);
+    UCThreadMutex_Unlock(action_searchedColor_mutex);
+    SEMO_LOG_DEBUG("Set from action");
+}
+
+LIBFUNC(void, get_searchedColor_report, void *buffer) {
+    UCThreadMutex_Lock(action_searchedColor_mutex);
+    action_searchedColor_updated = FALSE;
+    memcpy(buffer, action_searchedColor.buffer, action_searchedColor.size);
+    UCThreadMutex_Unlock(action_searchedColor_mutex);
+    SEMO_LOG_DEBUG("Multicast to others");
+}
+
+LIBFUNC(semo_int8, avail_searchedColor_report) {
+    return  action_searchedColor_updated;
+}

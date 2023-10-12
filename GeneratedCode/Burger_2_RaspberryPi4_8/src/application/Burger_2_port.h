@@ -1,0 +1,30 @@
+#ifndef __Burger_2_PORT_HEADER__
+#define __Burger_2_PORT_HEADER__
+
+#include "semo_common.h"
+#include "semo_port.h"
+
+extern PORT output_port_of_Burger_2_Robot_REMOTE_CONTROL_ReceiveCommandFromOperator_Burger_getModeTransferCommand[1];
+extern PORT output_port_of_Burger_2_Robot_SEARCH_GROUPING_ReceiveCommandFromOperator_Burger_getModeTransferCommand[1];
+extern PORT input_port_of_Burger_2_Robot_groupA_SEARCHIN_MODE_SEARCHIN_Search_Burger_searchV3[3];
+extern PORT output_port_of_Burger_2_Robot_groupA_SEARCHIN_MODE_SEARCHIN_Search_Burger_searchV3[1];
+extern PORT group_port_of_Burger_2_Robot_groupA_SEARCHIN_MODE_SEARCHIN_Search_Burger_searchV3;
+extern PORT input_port_of_Burger_2_Robot_groupB_SEARCHIN_MODE_SEARCHIN_Search_Burger_searchV3[3];
+extern PORT output_port_of_Burger_2_Robot_groupB_SEARCHIN_MODE_SEARCHIN_Search_Burger_searchV3[1];
+extern PORT group_port_of_Burger_2_Robot_groupB_SEARCHIN_MODE_SEARCHIN_Search_Burger_searchV3;
+
+
+extern COMM_PORT throw_out_port_of_Robot_groupA_SEARCHIN_MODE_SEARCHIN_Search_2;
+extern COMM_PORT throw_out_port_of_Robot_groupB_SEARCHIN_MODE_SEARCHIN_Search_2;
+
+extern COMM_PORT throw_in_port_list[2];
+extern semo_int32 throw_in_port_list_size;
+
+extern PORT port_of_leader;
+
+extern PORT port_of_grouping_mode;
+extern PORT port_of_grouping_result;
+
+void port_init();
+COMM_PORT* get_team_port(COMM_PORT* port_list, semo_int32 port_list_size, semo_int32 team_id);
+#endif

@@ -1,0 +1,141 @@
+
+BOARD_TAG=OpenCR
+ARDUINO_LIBS=DynamixelSDK OLLO
+
+BOARD_TAG ?= uno
+
+ifneq ($(BOARD_TAG),OpenCR)
+  ARDUINO_LIBS+=SoftwareSerial
+endif
+
+MAIN_DIR=src/main
+
+APPLICATION_DIR=src/application
+API_DIR=src/api
+KERNEL_DIR=src/kernel
+COMMON_DIR=src/common
+MODULE_DIR=src/module
+PLATFORM_DIR=native/arduino
+DEVICE_RESTRICTION=constrained
+
+SYSTEM_CFLAGS=-DAPI_LITE
+
+SYSTEM_LDFLAG_LIST=
+
+MAIN_C_SOURCES=
+
+MAIN_CPP_SOURCES=$(MAIN_DIR)/$(DEVICE_RESTRICTION)/$(PLATFORM_DIR)/main.ino.cpp
+
+APPLICATION_C_SOURCES=
+
+APPLICATION_CPP_SOURCES=$(APPLICATION_DIR)/Burger_3_wheel_O_wheelControl_0.cpp\
+	$(APPLICATION_DIR)/Burger_3_color_O_color_0.cpp\
+	$(APPLICATION_DIR)/Burger_3_led_O_led_0.cpp
+
+EXTRA_C_SOURCES=
+
+EXTRA_CPP_SOURCES=$(APPLICATION_DIR)/turtlebot3_motor_driver.cpp\
+	$(APPLICATION_DIR)/turtlebot3_motor_control.cpp
+			
+API_C_SOURCES=$(API_DIR)/UFControl_deprecated.c\
+	$(API_DIR)/UFControl.c\
+	$(API_DIR)/UFPort_deprecated.c\
+	$(API_DIR)/UFPort.c\
+	$(API_DIR)/UFTask_deprecated.c\
+	$(API_DIR)/UFTask.c\
+	$(API_DIR)/UFTimer_deprecated.c\
+	$(API_DIR)/UFTimer.c
+
+API_CPP_SOURCES=
+
+KERNEL_DATA_C_SOURCES=$(KERNEL_DIR)/generated/uem_module_data.c
+	
+KERNEL_DATA_CPP_SOURCES=$(KERNEL_DIR)/generated/uem_data.cpp\
+	$(KERNEL_DIR)/generated/uem_channel_data.cpp\
+	$(KERNEL_DIR)/generated/uem_multicast_data.cpp\
+		
+KERNEL_C_SOURCES=$(KERNEL_DIR)/UKSharedMemoryChannel.c\
+	$(KERNEL_DIR)/UKChannel.c\
+	$(KERNEL_DIR)/UKTimer.c\
+	$(KERNEL_DIR)/UKTime.c\
+	$(KERNEL_DIR)/UKTask.c
+	
+KERNEL_CPP_SOURCES=
+
+KERNEL_DEVICE_C_SOURCES=$(KERNEL_DIR)/$(DEVICE_RESTRICTION)/UKLibrary.c\
+	$(KERNEL_DIR)/$(DEVICE_RESTRICTION)/UKTaskScheduler.c\
+	$(KERNEL_DIR)/$(DEVICE_RESTRICTION)/UKTaskControl.c\
+	$(KERNEL_DIR)/$(DEVICE_RESTRICTION)/UKTaskParameter.c\
+	$(KERNEL_DIR)/$(DEVICE_RESTRICTION)/UKTask_constrained.c\
+	$(KERNEL_DIR)/$(DEVICE_RESTRICTION)/UKChannelMemory.c\
+	$(KERNEL_DIR)/$(DEVICE_RESTRICTION)/UKAddOnHandler.c\
+	$(KERNEL_DIR)/$(DEVICE_RESTRICTION)/communication/UKSerialModule.c\
+	$(KERNEL_DIR)/$(DEVICE_RESTRICTION)/communication/UKSerialChannel.c\
+	$(KERNEL_DIR)/$(DEVICE_RESTRICTION)/communication/UKUEMLiteProtocol.c
+
+KERNEL_DEVICE_CPP_SOURCES=
+
+COMMON_C_SOURCES=$(COMMON_DIR)/UCBasic.c\
+	$(COMMON_DIR)/UCEndian.c\
+	$(COMMON_DIR)/UCString.c\
+	$(COMMON_DIR)/$(DEVICE_RESTRICTION)/$(PLATFORM_DIR)/UCTime.c\
+
+COMMON_CPP_SOURCES=$(COMMON_DIR)/$(DEVICE_RESTRICTION)/$(PLATFORM_DIR)/UCPrint.cpp\
+	$(COMMON_DIR)/$(DEVICE_RESTRICTION)/$(PLATFORM_DIR)/communication/UCSerial.cpp
+
+MODULE_C_SOURCES=
+
+MODULE_CPP_SOURCES=
+
+LOCAL_C_SRCS=$(MAIN_C_SOURCES) $(APPLICATION_C_SOURCES) $(EXTRA_C_SOURCES) $(API_C_SOURCES)\
+	$(KERNEL_DATA_C_SOURCES) $(KERNEL_C_SOURCES) $(KERNEL_DEVICE_C_SOURCES)\
+	$(COMMON_C_SOURCES) $(MODULE_C_SOURCES)
+
+LOCAL_CPP_SRCS=$(MAIN_CPP_SOURCES) $(APPLICATION_CPP_SOURCES) $(EXTRA_CPP_SOURCES) $(API_CPP_SOURCES)\
+	$(KERNEL_DATA_CPP_SOURCES) $(KERNEL_CPP_SOURCES) $(KERNEL_DEVICE_CPP_SOURCES)\
+	$(COMMON_CPP_SOURCES) $(MODULE_CPP_SOURCES)
+			 
+
+MAIN_CFLAGS=-I$(MAIN_DIR)/include
+
+API_CFLAGS=-I$(API_DIR)/include
+
+KERNEL_CFLAGS=-I$(KERNEL_DIR)/include\
+				-I$(KERNEL_DIR)/include/encryption\
+				-I$(KERNEL_DIR)/$(DEVICE_RESTRICTION)/include\
+				-I$(KERNEL_DIR)/$(DEVICE_RESTRICTION)/include/communication\
+
+TOP_CFLAGS=-I$(top_srcdir)
+
+COMMON_CFLAGS=-I$(COMMON_DIR)/include\
+				-I$(COMMON_DIR)/$(DEVICE_RESTRICTION)/include\
+				-I$(COMMON_DIR)/include/communication\
+				-I$(COMMON_DIR)/$(DEVICE_RESTRICTION)/include/communication\
+
+
+MODULE_CFLAGS=-I$(MODULE_DIR)/include
+
+CFLAGS_LIST=$(TOP_CFLAGS) $(MAIN_CFLAGS) $(API_CFLAGS) $(KERNEL_CFLAGS) $(COMMON_CFLAGS) $(MODULE_CFLAGS)
+
+CFLAGS+=-Wall $(CFLAGS_LIST) $(SYSTEM_CFLAGS)
+
+CFLAGS+=-std=gnu11  #seems to be Sam.mk bug.
+
+CXXFLAGS+=-Wall $(CFLAGS_LIST) $(SYSTEM_CFLAGS)
+
+MAIN_LDFLAG_LIST=
+
+API_LDFLAG_LIST=
+
+KERNEL_LDFLAG_LIST=
+
+COMMON_LDFLAG_LIST=$(SYSTEM_LDFLAG_LIST)
+
+LDFLAGS+=$(MAIN_LDFLAG_LIST) $(API_LDFLAG_LIST) $(KERNEL_LDFLAG_LIST) $(COMMON_LDFLAG_LIST)
+
+ifneq ($(BOARD_TAG),OpenCR)
+  include Sam.mk  
+else
+  include OpenCR.mk  
+endif
+

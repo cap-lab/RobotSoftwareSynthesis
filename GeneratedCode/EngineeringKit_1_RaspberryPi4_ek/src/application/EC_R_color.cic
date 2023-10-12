@@ -1,0 +1,74 @@
+/************************************
+ *
+ * File : checkDistanceByLDS.cic
+ * Date : Oct 28, 2022 10:46 AM
+ *
+*************************************/
+
+/////////////////////////////////////
+// include header section
+/////////////////////////////////////
+// #include <thread>
+// #include <chrono>
+#include "dynamixel_sdk.h"
+
+TASK_CODE_BEGIN
+
+/////////////////////////////////////
+// global definition
+/////////////////////////////////////
+#define COLOR_ADDRESS 471
+#define COLOR_MODULE_ADDRESS ((uint16_t)394)
+#define COLOR_MODULE_CONFIG ((uint8_t)13)
+// ##DEFINE_PORT_SECTION::START
+STATIC int group;
+STATIC int port;
+// ##DEFINE_PORT_SECTION::END
+
+/////////////////////////////////////
+// init code
+/////////////////////////////////////
+
+TASK_INIT
+{
+// ##INIT_PORT_SECTION::START
+    UFMulticastPort_Initialize(TASK_ID, "color", &group, &port);
+// ##INIT_PORT_SECTION::END
+    
+    // TODO: task initialize code
+    SEMO_LOG_DEBUG("cmid %d, color module address %d config %d", COLOR_MODULE_ADDRESS, COLOR_MODULE_CONFIG);
+    SEMO_write1ByteTxRx(CM_ID, COLOR_MODULE_ADDRESS, COLOR_MODULE_CONFIG);
+}
+
+
+/////////////////////////////////////
+// go code
+/////////////////////////////////////
+TASK_GO
+{
+    int color;
+    uint8_t value;
+    int dataNum;
+    uem_result result;
+    SEMO_read1ByteTxRx(CM_ID, COLOR_ADDRESS, &value);
+    color = (int) value;
+    SEMO_LOG_DEBUG("cmid %d, color address %d, ori value: %d, color %d", CM_ID, COLOR_ADDRESS, (int) value, color);
+    result = UFMulticastPort_WriteToBuffer(group, port, (unsigned char *)&color, sizeof(int), &dataNum);
+    ERRIFGOTO(result, EXIT_);
+EXIT_:
+    if(result != ERR_UEM_NOERROR) {
+        SEMO_LOG_ERROR("communication error(%X)", result);
+    }
+}
+
+
+/////////////////////////////////////
+// wrapup code
+/////////////////////////////////////
+
+TASK_WRAPUP
+{
+    // TODO: task wrapup code
+}
+
+TASK_CODE_END

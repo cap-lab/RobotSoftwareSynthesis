@@ -1,0 +1,290 @@
+/////////////////////////////////////
+// include header section
+/////////////////////////////////////
+
+// ##DEFINE_SECTION::START
+#include "UFTimer.h"
+// ##DEFINE_SECTION::END
+
+TASK_CODE_BEGIN
+
+/////////////////////////////////////
+// global definition
+/////////////////////////////////////
+// MULTICAST VARIABLE DEFINE
+#pragma pack(push, 1)
+STATIC struct _Robot_groupA_event_FINISH {
+    MULTICAST_PACKET_HEADER header;
+    semo_int32 body[1];
+} Robot_groupA_event_FINISH = {{-1, THIS_ROBOT_ID}, {0,}};
+#pragma pack(pop)
+STATIC MULTICAST_PACKET packet_Robot_groupA_event_FINISH = {&Robot_groupA_event_FINISH.header, Robot_groupA_event_FINISH.body};
+#pragma pack(push, 1)
+STATIC struct _Robot_groupB_event_FINISH {
+    MULTICAST_PACKET_HEADER header;
+    semo_int32 body[1];
+} Robot_groupB_event_FINISH = {{-1, THIS_ROBOT_ID}, {0,}};
+#pragma pack(pop)
+STATIC MULTICAST_PACKET packet_Robot_groupB_event_FINISH = {&Robot_groupB_event_FINISH.header, Robot_groupB_event_FINISH.body};
+
+// SHARED DATA VARIABLE DEFINE
+#pragma pack(push, 1)
+STATIC struct _Burger_2_Robot_groupA_SEARCHIN_MODE_SEARCHIN_Search_searchV3_0 {
+    MULTICAST_PACKET_HEADER header;
+    VARIABLE_TYPE_searchedColor body[2];
+} Burger_2_Robot_groupA_SEARCHIN_MODE_SEARCHIN_Search_searchV3_0 = {{-1, THIS_ROBOT_ID}, {0,}};
+#pragma pack(pop)
+STATIC MULTICAST_PACKET packet_Burger_2_Robot_groupA_SEARCHIN_MODE_SEARCHIN_Search_searchV3_0 = {&Burger_2_Robot_groupA_SEARCHIN_MODE_SEARCHIN_Search_searchV3_0.header, Burger_2_Robot_groupA_SEARCHIN_MODE_SEARCHIN_Search_searchV3_0.body};
+#pragma pack(push, 1)
+STATIC struct _Burger_2_Robot_groupB_SEARCHIN_MODE_SEARCHIN_Search_searchV3_0 {
+    MULTICAST_PACKET_HEADER header;
+    VARIABLE_TYPE_searchedColor body[2];
+} Burger_2_Robot_groupB_SEARCHIN_MODE_SEARCHIN_Search_searchV3_0 = {{-1, THIS_ROBOT_ID}, {0,}};
+#pragma pack(pop)
+STATIC MULTICAST_PACKET packet_Burger_2_Robot_groupB_SEARCHIN_MODE_SEARCHIN_Search_searchV3_0 = {&Burger_2_Robot_groupB_SEARCHIN_MODE_SEARCHIN_Search_searchV3_0.header, Burger_2_Robot_groupB_SEARCHIN_MODE_SEARCHIN_Search_searchV3_0.body};
+
+// GROUP ACTION VARIABLE DEFINE
+#pragma pack(push, 1)
+STATIC struct _group_action_3 {
+    MULTICAST_PACKET_HEADER header;
+    semo_int32 body[1];
+} group_action_3 = {{-1, THIS_ROBOT_ID}, {3}};
+#pragma pack(pop)
+STATIC MULTICAST_PACKET packet_group_action_3 = {&group_action_3.header, group_action_3.body};
+#pragma pack(push, 1)
+STATIC struct _group_action_4 {
+    MULTICAST_PACKET_HEADER header;
+    semo_int32 body[1];
+} group_action_4 = {{-1, THIS_ROBOT_ID}, {4}};
+#pragma pack(pop)
+STATIC MULTICAST_PACKET packet_group_action_4 = {&group_action_4.header, group_action_4.body};
+
+// LEADER VARIABLE DEFINE
+#pragma pack(push, 1)
+STATIC struct _Robot_groupA_leader_robotId_Robot_groupA {
+    MULTICAST_PACKET_HEADER header;
+    semo_int32 body[1];
+} Robot_groupA_leader_robotId_Robot_groupA = {{-1, THIS_ROBOT_ID}, {0}};
+#pragma pack(pop)
+STATIC MULTICAST_PACKET packet_Robot_groupA_leader_robotId_Robot_groupA = {&Robot_groupA_leader_robotId_Robot_groupA.header, Robot_groupA_leader_robotId_Robot_groupA.body};
+#pragma pack(push, 1)
+STATIC struct _Robot_groupA_leader_heartbeat_Robot_groupA {
+    MULTICAST_PACKET_HEADER header;
+    semo_int32 body[1];
+} Robot_groupA_leader_heartbeat_Robot_groupA = {{-1, THIS_ROBOT_ID}, {0}};
+#pragma pack(pop)
+STATIC MULTICAST_PACKET packet_Robot_groupA_leader_heartbeat_Robot_groupA = {&Robot_groupA_leader_heartbeat_Robot_groupA.header, Robot_groupA_leader_heartbeat_Robot_groupA.body};
+#pragma pack(push, 1)
+STATIC struct _Robot_leader_robotId_Robot {
+    MULTICAST_PACKET_HEADER header;
+    semo_int32 body[1];
+} Robot_leader_robotId_Robot = {{-1, THIS_ROBOT_ID}, {0}};
+#pragma pack(pop)
+STATIC MULTICAST_PACKET packet_Robot_leader_robotId_Robot = {&Robot_leader_robotId_Robot.header, Robot_leader_robotId_Robot.body};
+#pragma pack(push, 1)
+STATIC struct _Robot_leader_heartbeat_Robot {
+    MULTICAST_PACKET_HEADER header;
+    semo_int32 body[1];
+} Robot_leader_heartbeat_Robot = {{-1, THIS_ROBOT_ID}, {0}};
+#pragma pack(pop)
+STATIC MULTICAST_PACKET packet_Robot_leader_heartbeat_Robot = {&Robot_leader_heartbeat_Robot.header, Robot_leader_heartbeat_Robot.body};
+#pragma pack(push, 1)
+STATIC struct _Robot_groupB_leader_robotId_Robot_groupB {
+    MULTICAST_PACKET_HEADER header;
+    semo_int32 body[1];
+} Robot_groupB_leader_robotId_Robot_groupB = {{-1, THIS_ROBOT_ID}, {0}};
+#pragma pack(pop)
+STATIC MULTICAST_PACKET packet_Robot_groupB_leader_robotId_Robot_groupB = {&Robot_groupB_leader_robotId_Robot_groupB.header, Robot_groupB_leader_robotId_Robot_groupB.body};
+#pragma pack(push, 1)
+STATIC struct _Robot_groupB_leader_heartbeat_Robot_groupB {
+    MULTICAST_PACKET_HEADER header;
+    semo_int32 body[1];
+} Robot_groupB_leader_heartbeat_Robot_groupB = {{-1, THIS_ROBOT_ID}, {0}};
+#pragma pack(pop)
+STATIC MULTICAST_PACKET packet_Robot_groupB_leader_heartbeat_Robot_groupB = {&Robot_groupB_leader_heartbeat_Robot_groupB.header, Robot_groupB_leader_heartbeat_Robot_groupB.body};
+
+// GROUPING VARIABLE DEFINE
+#pragma pack(push, 1)
+STATIC struct _grouping {
+    GROUPING_PACKET_HEADER header;
+    semo_int32 robot_num;
+    SEMO_GROUPING_SHARED robot_info_list[7];
+    semo_uint8 body[84];
+} grouping = {{-1, THIS_ROBOT_ID, -1}, 0,};
+#pragma pack(pop)
+STATIC GROUPING_PACKET packet_grouping = {&grouping.header, &grouping.robot_num, grouping.robot_info_list, grouping.body};
+
+// MULTICAST PORT SECTION
+STATIC MULTICAST_PORT multicast_port_list[2] = {
+    {"Robot_groupA_FINISH", -1, -1, "ControlRobot_groupA_FINISH", -1,  &Robot_groupA_event_FINISH, &packet_Robot_groupA_event_FINISH, 4, -1},
+    {"Robot_groupB_FINISH", -1, -1, "ControlRobot_groupB_FINISH", -1,  &Robot_groupB_event_FINISH, &packet_Robot_groupB_event_FINISH, 4, -1},
+};
+
+// GROUP SERVICE PORT SECTION
+STATIC SHARED_DATA_PORT shared_data_port_list[2] = {
+    {"Robot_groupA_SEARCHIN_MODE_SEARCHIN_Search_searchV3_0", -1, -1, l_Burger_2_Robot_groupA_SEARCHIN_MODE_SEARCHIN_Search_searchV3_0_avail_searchedColor_report, l_Burger_2_Robot_groupA_SEARCHIN_MODE_SEARCHIN_Search_searchV3_0_get_searchedColor_report, NULL, &Burger_2_Robot_groupA_SEARCHIN_MODE_SEARCHIN_Search_searchV3_0, &packet_Burger_2_Robot_groupA_SEARCHIN_MODE_SEARCHIN_Search_searchV3_0, 8, -1},
+    {"Robot_groupB_SEARCHIN_MODE_SEARCHIN_Search_searchV3_0", -1, -1, l_Burger_2_Robot_groupB_SEARCHIN_MODE_SEARCHIN_Search_searchV3_0_avail_searchedColor_report, l_Burger_2_Robot_groupB_SEARCHIN_MODE_SEARCHIN_Search_searchV3_0_get_searchedColor_report, NULL, &Burger_2_Robot_groupB_SEARCHIN_MODE_SEARCHIN_Search_searchV3_0, &packet_Burger_2_Robot_groupB_SEARCHIN_MODE_SEARCHIN_Search_searchV3_0, 8, -1},
+};
+
+// GROUP ACTION PORT SECTION
+STATIC GROUP_ACTION_PORT group_action_port_list[2] = {
+    {"Robot_groupA_SEARCHIN_MODE_SEARCHIN_Search_Burger_searchV3", -1, -1, l_Burger_2_group_action_avail_group_action_report, NULL, &group_action_3, &packet_group_action_3, 4, -1},
+    {"Robot_groupB_SEARCHIN_MODE_SEARCHIN_Search_Burger_searchV3", -1, -1, l_Burger_2_group_action_avail_group_action_report, NULL, &group_action_4, &packet_group_action_4, 4, -1},
+};
+
+// LEADER PORT SECTION
+STATIC LEADER_PORT leader_port_list[3] = {
+    {"Robot_groupA_leader_robotId", -1, -1, &Robot_groupA_leader_robotId_Robot_groupA, &packet_Robot_groupA_leader_robotId_Robot_groupA, -1, l_Burger_2_leader_avail_robot_id_report, l_Burger_2_leader_get_robot_id_report, NULL,
+    "Robot_groupA_leader_heartbeat", -1, -1, &Robot_groupA_leader_heartbeat_Robot_groupA, &packet_Robot_groupA_leader_heartbeat_Robot_groupA, -1, l_Burger_2_leader_avail_heartbeat_report, l_Burger_2_leader_get_heartbeat_report, NULL, ID_GROUP_Robot_groupA, 16},
+    {"Robot_leader_robotId", -1, -1, &Robot_leader_robotId_Robot, &packet_Robot_leader_robotId_Robot, -1, l_Burger_2_leader_avail_robot_id_report, l_Burger_2_leader_get_robot_id_report, NULL,
+    "Robot_leader_heartbeat", -1, -1, &Robot_leader_heartbeat_Robot, &packet_Robot_leader_heartbeat_Robot, -1, l_Burger_2_leader_avail_heartbeat_report, l_Burger_2_leader_get_heartbeat_report, NULL, ID_GROUP_Robot, 16},
+    {"Robot_groupB_leader_robotId", -1, -1, &Robot_groupB_leader_robotId_Robot_groupB, &packet_Robot_groupB_leader_robotId_Robot_groupB, -1, l_Burger_2_leader_avail_robot_id_report, l_Burger_2_leader_get_robot_id_report, NULL,
+    "Robot_groupB_leader_heartbeat", -1, -1, &Robot_groupB_leader_heartbeat_Robot_groupB, &packet_Robot_groupB_leader_heartbeat_Robot_groupB, -1, l_Burger_2_leader_avail_heartbeat_report, l_Burger_2_leader_get_heartbeat_report, NULL, ID_GROUP_Robot_groupB, 16},
+};
+
+// GROUP SERVICE PORT SECTION
+STATIC GROUPING_PORT grouping_port_list[1] = {
+    {"Robot_SEARCH_GROUPING_grouping", -1, -1, l_Burger_2_grouping_avail_shared_data_report, l_Burger_2_grouping_get_shared_data_report, NULL, &grouping, &packet_grouping, 12, -1},
+};
+
+/////////////////////////////////////
+// init code
+/////////////////////////////////////
+STATIC void multicast_port_init() {
+    for (int i = 0 ; i<sizeof(multicast_port_list)/sizeof(MULTICAST_PORT) ; i++)
+    {
+        UFPort_Initialize(THIS_TASK_ID, multicast_port_list[i].channel_port_name, &(multicast_port_list[i].channel_port_id));
+        UFMulticastPort_Initialize(THIS_TASK_ID, multicast_port_list[i].multicast_port_name, &(multicast_port_list[i].multicast_group_id), &(multicast_port_list[i].multicast_port_id));
+    }
+}
+
+STATIC void shared_data_port_init() {
+    for (int i = 0 ; i<sizeof(shared_data_port_list)/sizeof(SHARED_DATA_PORT) ; i++)
+    {
+        UFMulticastPort_Initialize(THIS_TASK_ID, shared_data_port_list[i].multicast_port_name, &(shared_data_port_list[i].multicast_group_id), &(shared_data_port_list[i].multicast_port_id));
+    }
+}
+
+STATIC void group_action_port_init() {
+    for (int i = 0 ; i<sizeof(group_action_port_list)/sizeof(GROUP_ACTION_PORT) ; i++)
+    {
+        UFMulticastPort_Initialize(THIS_TASK_ID, group_action_port_list[i].multicast_port_name, &(group_action_port_list[i].multicast_group_id), &(group_action_port_list[i].multicast_port_id));
+    }
+}
+
+STATIC void leader_port_init() {
+    for (int i = 0 ; i < sizeof(leader_port_list)/sizeof(LEADER_PORT) ; i++)
+    {
+        UFMulticastPort_Initialize(THIS_TASK_ID, leader_port_list[i].robot_id_port_name, &(leader_port_list[i].robot_id_group_id), &(leader_port_list[i].robot_id_port_id));
+        UFMulticastPort_Initialize(THIS_TASK_ID, leader_port_list[i].heartbeat_port_name, &(leader_port_list[i].heartbeat_group_id), &(leader_port_list[i].heartbeat_port_id));
+    }
+}
+STATIC void grouping_port_init() {
+    for (int i = 0 ; i<sizeof(grouping_port_list)/sizeof(GROUPING_PORT) ; i++)
+    {
+        UFMulticastPort_Initialize(THIS_TASK_ID, grouping_port_list[i].multicast_port_name, &(grouping_port_list[i].multicast_group_id), &(grouping_port_list[i].multicast_port_id));
+    }
+}
+
+TASK_INIT
+{
+	SEMO_LOG_INFO("INIT");
+    multicast_port_init();
+    shared_data_port_init();
+    group_action_port_init();
+    leader_port_init();
+    grouping_port_init();
+}
+
+/////////////////////////////////////
+// go code
+/////////////////////////////////////
+STATIC void multicast_port_send() {
+    for (int i = 0 ; i<sizeof(multicast_port_list)/sizeof(MULTICAST_PORT) ; i++)
+    {
+        if (channel_port_read(multicast_port_list[i].channel_port_id, multicast_port_list[i].packet->data, multicast_port_list[i].size, FALSE) > 0) 
+        {
+            int data_len;
+        	UFTimer_GetCurrentTime(THIS_TASK_ID, &(multicast_port_list[i].packet->header->time));
+        	UFMulticastPort_WriteToBuffer(multicast_port_list[i].multicast_group_id, multicast_port_list[i].multicast_port_id, (unsigned char * ) multicast_port_list[i].buffer, multicast_port_list[i].size + sizeof(MULTICAST_PACKET_HEADER), &data_len);
+        }
+    }
+}
+
+STATIC void shared_data_port_send() {
+    for (int i = 0 ; i<sizeof(shared_data_port_list)/sizeof(SHARED_DATA_PORT) ; i++)
+    {
+        if (shared_data_port_list[i].lib_avail_func() == TRUE) 
+        {
+            int data_len;
+            shared_data_port_list[i].lib_get_func(shared_data_port_list[i].packet->data);
+            UFTimer_GetCurrentTime(THIS_TASK_ID, &(shared_data_port_list[i].packet->header->time));
+            UFMulticastPort_WriteToBuffer(shared_data_port_list[i].multicast_group_id, shared_data_port_list[i].multicast_port_id, (unsigned char * ) shared_data_port_list[i].buffer, shared_data_port_list[i].size + sizeof(MULTICAST_PACKET_HEADER), &data_len);
+        }
+    }
+}
+
+STATIC void group_action_port_send() {
+    for (int i = 0 ; i<sizeof(group_action_port_list)/sizeof(GROUP_ACTION_PORT) ; i++)
+    {
+        if (group_action_port_list[i].lib_avail_func(*(int*)group_action_port_list[i].packet->data) == TRUE) 
+        {
+            int data_len;
+            UFTimer_GetCurrentTime(THIS_TASK_ID, &(group_action_port_list[i].packet->header->time));
+            UFMulticastPort_WriteToBuffer(group_action_port_list[i].multicast_group_id, group_action_port_list[i].multicast_port_id, (unsigned char * ) group_action_port_list[i].buffer, group_action_port_list[i].size + sizeof(MULTICAST_PACKET_HEADER), &data_len);
+        }
+    }
+}
+
+STATIC void leader_port_send() {
+    for (int i = 0 ; i < sizeof(leader_port_list)/sizeof(LEADER_PORT) ; i++)
+    {
+        if (leader_port_list[i].robot_id_avail_func(leader_port_list[i].group_id) == TRUE) 
+        {
+            int data_len;
+            *(int*)leader_port_list[i].robot_id_packet->data = leader_port_list[i].robot_id_get_func(leader_port_list[i].group_id);
+            UFTimer_GetCurrentTime(THIS_TASK_ID, &(leader_port_list[i].robot_id_packet->header->time));
+            UFMulticastPort_WriteToBuffer(leader_port_list[i].robot_id_group_id, leader_port_list[i].robot_id_port_id, (unsigned char * ) leader_port_list[i].robot_id_buffer, leader_port_list[i].size, &data_len);
+        }
+        if (leader_port_list[i].heartbeat_avail_func(leader_port_list[i].group_id) == TRUE) 
+        {
+            int data_len;
+            *(int*)leader_port_list[i].heartbeat_packet->data = leader_port_list[i].heartbeat_get_func(leader_port_list[i].group_id);
+            UFTimer_GetCurrentTime(THIS_TASK_ID, &(leader_port_list[i].heartbeat_packet->header->time));
+            UFMulticastPort_WriteToBuffer(leader_port_list[i].heartbeat_group_id, leader_port_list[i].heartbeat_port_id, (unsigned char * ) leader_port_list[i].heartbeat_buffer, leader_port_list[i].size, &data_len);
+        }
+    }
+}
+
+STATIC void grouping_port_send() {
+    for (int i = 0 ; i<sizeof(grouping_port_list)/sizeof(GROUPING_PORT) ; i++)
+    {
+        if (grouping_port_list[i].lib_avail_func() == TRUE) 
+        {
+            int data_len;
+            grouping_port_list[i].lib_get_func(&grouping_port_list[i].packet->header->mode_id, grouping_port_list[i].packet->robot_info_list, grouping_port_list[i].packet->shared_robot_num, grouping_port_list[i].packet->data, grouping_port_list[i].size);
+            UFTimer_GetCurrentTime(THIS_TASK_ID, &(grouping_port_list[i].packet->header->time));
+            UFMulticastPort_WriteToBuffer(grouping_port_list[i].multicast_group_id, grouping_port_list[i].multicast_port_id, (unsigned char * ) grouping_port_list[i].buffer, sizeof(grouping), &data_len);
+        }
+    }
+}
+
+TASK_GO
+{
+    multicast_port_send();
+    shared_data_port_send();
+    group_action_port_send();
+    leader_port_send();
+    grouping_port_send();
+}
+
+/////////////////////////////////////
+// wrapup code
+/////////////////////////////////////
+
+TASK_WRAPUP
+{
+
+}
+
+TASK_CODE_END

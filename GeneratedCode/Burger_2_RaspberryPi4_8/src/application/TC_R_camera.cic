@@ -1,0 +1,124 @@
+/************************************
+ *
+ * File : checkDistanceByTracking.cic
+ * Date : Oct 28, 2022 10:46 AM
+ *
+*************************************/
+
+/////////////////////////////////////
+// include header section
+/////////////////////////////////////
+
+#include <time.h>
+#include <sys/time.h>
+
+#include <string>
+#include "semo_camera.h"
+
+// ##DEFINE_SECTION::START
+// ##DEFINE_SECTION::END
+
+
+TASK_CODE_BEGIN
+
+/////////////////////////////////////
+// global definition
+/////////////////////////////////////
+
+// ##DEFINE_PORT_SECTION::START
+STATIC int group;
+STATIC int port;
+// ##DEFINE_PORT_SECTION::END
+
+static int direction;
+
+static cv::VideoCapture cap;
+
+/////////////////////////////////////
+// init code
+/////////////////////////////////////
+
+/*static long long s_llCurTime = 0;
+static long long s_llStartTime = 0;
+
+static long long getCurTickInMicroSeconds()
+{
+    long long tTime = 0;
+    struct timespec stTime;
+    int nRet = 0;
+
+    nRet = clock_gettime(CLOCK_MONOTONIC, &stTime);
+
+    tTime = (((long long) stTime.tv_sec) * 1000000) + (stTime.tv_nsec / 1000);
+
+    return tTime;
+}*/
+
+
+
+TASK_INIT
+{
+// ##INIT_PORT_SECTION::START
+    UFMulticastPort_Initialize(TASK_ID, "camera", &group, &port);
+// ##INIT_PORT_SECTION::END
+    
+    // TODO: task initialize code
+    cap.open("rtsp://127.0.0.1:8554/unicast");
+    if(!cap.isOpened()) {
+        SEMO_LOG_ERROR("Failed to open camera.");
+    }
+}
+
+
+/////////////////////////////////////
+// go code
+/////////////////////////////////////
+
+TASK_GO
+{
+    int found = 0;
+    int numOfWrite;
+    uem_result result = ERR_UEM_ERROR;
+    cv::Mat frame;
+    SEMO_CAMERA image;
+    
+    // TODO: task main code
+    if (cap.read(frame)) {
+        
+        //s_llStartTime = getCurTickInMicroSeconds();
+        convertCVMatToArray(image, frame);
+        result = UFMulticastPort_WriteToBuffer(group, port, (unsigned char *)&image, sizeof(SEMO_CAMERA), &numOfWrite);
+        cv::waitKey(5);
+
+        //s_llCurTime = getCurTickInMicroSeconds();
+        //std::cout << "elapsed time: " << (s_llCurTime - s_llStartTime) << std::endl;
+    } else {
+        SEMO_LOG_ERROR("Camera Capture Error");
+        cap.release();
+        cap.open("rtsp://127.0.0.1:8554/unicast");
+        if (!cap.isOpened())
+        {
+            SEMO_LOG_ERROR("Failed to reopen camera.");
+        }
+    }
+    if(result != ERR_UEM_NOERROR) {
+        SEMO_LOG_ERROR("communication error(%X)", result);
+    }
+
+    
+}
+
+
+
+/////////////////////////////////////
+// wrapup code
+/////////////////////////////////////
+
+TASK_WRAPUP
+{
+    // TODO: task wrapup code
+    cap.release();
+}
+
+
+TASK_CODE_END
