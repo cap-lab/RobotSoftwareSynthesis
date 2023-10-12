@@ -11,43 +11,43 @@ __SWComponentLib__ : The component library which contains the pre-defined compon
 ## Code Repository of the Component Library
 
 ```
-戍式式 Algorithm : The folder which contains the source code of algorithm components
-弛     戍式式 getModeTransferCommand : Soruce code of _getModeTransferCommand_ action
-弛     戍式式 include : Header files for sharing structure and enumeration definition with sensor/actuators
-弛     弛     戍式式 buzzer : Buzzer sensor header file
-弛     弛     戍式式 camera : Camera header file
-弛     弛     戍式式 color : Color sensor header file
-弛     弛     戍式式 direction : Wheel direction header file
-弛     弛     戍式式 distance : Distance sensor header file
-弛     弛     戌式式 led : LED header file
-弛     戍式式 remoteControl : soruce code of _remoteControl_ action
-弛     戍式式 searchV2 : Soruce code of _searchV2_ action
-弛     戌式式 searchV3 : Soruce code of _searchV3_ action (This action represents the _searchColor_ in the paper)
-戍式式 Consensus : The folder which contains the source code of consensus components
-弛     戍式式 GroupSelection : Group selection methods
-弛     弛     戍式式 DTA : dynamic group selection method
-弛     弛     戌式式 STATIC : Static group selection method
-弛     戌式式 LeaderElection : Leader election methods
-弛            戌式式 IDBased : ID-based leader election method
-戌式式 Robot : The folder which contains the source code of robot components
-       戍式式 EngineeringKit : Robot components of Engineering Kit robots
-       弛     戍式式 Actuator : Actuator access code of Engineering Kit robots
-       弛     弛     戍式式 led : LED access code
-       弛     弛     戌式式 wheel : Wheel access code
-       弛     戌式式 Sensor : Sensor access code of Engineering Kit robots
-       弛            戍式式 camera : Camera access code
-       弛            戍式式 color : Color sensor access code
-       弛            戌式式 dms : DMS-80 sensor access code
-       戌式式 TurtleBot_Common : Robot components of TurtleBot3 robots
-              戍式式 Actuator : Actuator access code of TurtleBot3 robots
-              弛     戍式式 buzzer : Buzzer access code
-              弛     戍式式 led : LED access code
-              弛     戌式式 wheel : Wheel access code
-              戌式式 Sensor : Sensor access code of TurtleBot3 robots
-                     戍式式 camera : Camera access code
-                     戍式式 color : Color sensor access code
-                     戍式式 lds : Laser distance sensor access code
-                     戌式式 motion : Motion sensor access code
+礎---- Algorithm : The folder which contains the source code of algorithm components
+礎      礎---- getModeTransferCommand : Soruce code of _getModeTransferCommand_ action
+礎      礎---- include : Header files for sharing structure and enumeration definition with sensor/actuators
+礎      礎      礎---- buzzer : Buzzer sensor header file
+礎      礎      礎---- camera : Camera header file
+礎      礎      礎---- color : Color sensor header file
+礎      礎      礎---- direction : Wheel direction header file
+礎      礎      礎---- distance : Distance sensor header file
+礎      礎      +---- led : LED header file
+礎      礎---- remoteControl : soruce code of _remoteControl_ action
+礎      礎---- searchV2 : Soruce code of _searchV2_ action
+礎      +---- searchV3 : Soruce code of _searchV3_ action (This action represents the _searchColor_ in the paper)
+礎---- Consensus : The folder which contains the source code of consensus components
+礎      礎---- GroupSelection : Group selection methods
+礎      礎      礎---- DTA : dynamic group selection method
+礎      礎      +---- STATIC : Static group selection method
+礎      +---- LeaderElection : Leader election methods
+礎             +--- IDBased : ID-based leader election method
++--- Robot : The folder which contains the source code of robot components
+       礎---- EngineeringKit : Robot components of Engineering Kit robots
+       礎      礎---- Actuator : Actuator access code of Engineering Kit robots
+       礎      礎      礎---- led : LED access code
+       礎      礎      +---- wheel : Wheel access code
+       礎      +---- Sensor : Sensor access code of Engineering Kit robots
+       礎             礎---- camera : Camera access code
+       礎             礎---- color : Color sensor access code
+       礎             +---- dms : DMS-80 sensor access code
+       +--- TurtleBot_Common : Robot components of TurtleBot3 robots
+              礎---- Actuator : Actuator access code of TurtleBot3 robots
+              礎      礎---- buzzer : Buzzer access code
+              礎      礎---- led : LED access code
+              礎      +---- wheel : Wheel access code
+              +---- Sensor : Sensor access code of TurtleBot3 robots
+                     礎---- camera : Camera access code
+                     礎---- color : Color sensor access code
+                     礎---- lds : Laser distance sensor access code
+                     +---- motion : Motion sensor access code
 ```
 
 
