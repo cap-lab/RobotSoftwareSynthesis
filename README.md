@@ -63,6 +63,8 @@ Burger\_1, Burger\_2, Burger\_3, Burger\_5, and Burger\_6.
 Two Engineering Kit robots participated in the motivational example, and the IDs of the two robots are <br> 
 EngineeringKit\_1 and EngineeringKit\_2.
 
+Pre-defined components and generated code from the robot task model generator is located at src/application folder of each generated code folder.
+
 | Folder name | Explanation | 
 | --- | --- |
 | Burger\_[number]\_OpenCR | Code generated for the OpenCR 1.0 board of Burger\_[number]. |
